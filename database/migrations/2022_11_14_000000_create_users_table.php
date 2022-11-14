@@ -18,6 +18,13 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('binusianid')->unique()->nullable();
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->unsignedBigInteger('division_id')->nullable();
+            $table->foreign('division_id')->references('id')->on('divisions');
+            $table->unsignedBigInteger('role_id');
+            $table->foreign('role_id')->references('id')->on('roles');
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ class Division extends Model
 {
     use HasFactory;
 
-    public function profile(){
-        return $this->hasOne(Profile::class);
+    public function user(){
+        return $this->hasOne(User::class);
     }
 }

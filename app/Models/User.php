@@ -42,8 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function profile(){
-        return $this->hasOne(Profile::class);
+    public function division(){
+        return $this->belongsTo(Division::class, 'division_id');
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
 
