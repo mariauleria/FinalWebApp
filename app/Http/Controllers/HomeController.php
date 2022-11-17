@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RolePageMapping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class HomeController extends Controller
 {
@@ -24,12 +27,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if($this->student()) return view('home');
+        //TO DO: validate other user
+        $res = $this->validateUser(1);
+        if($res->count() == 0){
+            return view('admin.home');
+        }
+        else{
+            return view('home');
+        }
     }
 
-    public function student(){
-        $role = Auth::user()->role->id;
-        if($role == 1) return true;
-        else return false;
+    public function validateUser(int $page_id){
+        $user_role_id = Auth::user()->role->id;
+        $role = RolePageMapping::where('role_id', $user_role_id)->where('page_id', $page_id)->get();
+
+        return $role;
     }
 }
