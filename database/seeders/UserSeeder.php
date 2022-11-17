@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'superadmin',
-            'email' => 'superadmin@dummy.co',
+            'email' => 'superadmin@super.co',
             'password' => bcrypt('12345'),
             'binusianid' => null,
             'phone' => null,

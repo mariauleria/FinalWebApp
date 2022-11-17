@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Masuk') }}</div>
+                <div class="card-header">{{ __('Masuk Mahasiswa') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
@@ -33,7 +33,7 @@
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
+{{--                                        <strong>{{ $message }}</strong>--}}
                                     </span>
                                 @enderror
                             </div>
@@ -62,6 +62,14 @@
 {{--                                        {{ __('Forgot Your Password?') }}--}}
 {{--                                    </a>--}}
 {{--                                @endif--}}
+                            </div>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4"><br>
+                                <a class="btn-link" href="#">
+                                    {{ __('Masuk sebagai Staff') }}
+                                </a>
                             </div>
                         </div>
                     </form>

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
 
 //        $this->call(PageSeeder::class);
 //        $this->call(Role_page_mapping::class);
-//        $this->call(AssetCategorySeeder::class);
-//        $this->call(AssetSeeder::class);
+        $this->call(AssetCategorySeeder::class);
+        $this->call(AssetSeeder::class);
     }
 }
