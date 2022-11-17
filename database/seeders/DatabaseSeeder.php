@@ -16,10 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisionSeeder::class);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-
-//        $this->call(PageSeeder::class);
-//        $this->call(Role_page_mapping::class);
         $this->call(AssetCategorySeeder::class);
         $this->call(AssetSeeder::class);
+        $this->call(PageSeeder::class);
+        $this->call(RolePageMappingSeeder::class);
     }
 }
