@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asset;
 use App\Models\RolePageMapping;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,11 +30,14 @@ class HomeController extends Controller
     {
         //TO DO: validate other user
         $res = $this->validateUser(1);
-        if($res->count() == 0){
-            return view('admin.home');
+        if($res->count()){
+            return view('home');
         }
         else{
-            return view('home');
+            $data =Asset::all();
+            return view('admin.home', [
+                'data' => $data
+            ]);
         }
     }
 
