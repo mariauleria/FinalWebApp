@@ -16,41 +16,18 @@
                 <div class="card-header">{{ __('Dashboard Admin') }}</div>
 
                 <div class="card-body">
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
-
-
-                    <table id="myTable" class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Serial Number</th>
-                            <th scope="col">Division</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($data as $index => $item)
-                            <tr>
-                                {{--                masukin kolom--}}
-                                <th scope="row">{{$index}}</th>
-                                <td>{{$item->serial_number}}</td>
-                                <td>{{$item->division->name}}</td>
-                                <td>{{$item->assetCategory->name}}</td>
-                                <td>
-                                    <a class="btn btn-small btn-info" href="{{ URL::to('assets/' . $item->id . '/edit') }}">Edit</a>
-                                    <a class="btn btn-small btn-info" href="#">Delete</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-
-
-
+                    {{ __('You are logged in!') }}
                 </div>
+
             </div>
-            <a class="btn btn-small btn-success" href="#">Tambah Aset Baru</a>
+
+            <a class="btn btn-small btn-success" href="{{ route('searchAsset') }}">Lihat Aset</a>
         </div>
     </div>
 </div>

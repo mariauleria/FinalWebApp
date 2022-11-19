@@ -21,3 +21,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('admin/searchAsset', [\App\Http\Controllers\AssetController::class, 'index'])->name('searchAsset');
+Route::get('admin/createAsset', [\App\Http\Controllers\AssetCategoryController::class, 'index'])->name('createAsset');

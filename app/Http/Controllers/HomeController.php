@@ -34,10 +34,7 @@ class HomeController extends Controller
             return view('home');
         }
         else{
-            $data =Asset::all();
-            return view('admin.home', [
-                'data' => $data
-            ]);
+            return view('admin.home');
         }
     }
 
