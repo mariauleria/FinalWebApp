@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class AssetController extends Controller
 {
@@ -27,7 +30,11 @@ class AssetController extends Controller
      */
     public function create()
     {
-        //
+        $show = AssetCategory::all();
+        return View::make('admin.createAsset', [
+            'show' => $show,
+            'data' => null
+        ]);
     }
 
     /**
@@ -38,7 +45,30 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'serialnumber' => 'required',
+            'location' => 'required',
+            'brand' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect('admin/createAsset')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else{
+            //store
+            $data = $request->input();
+            $aset = new Asset;
+            $aset->serial_number = $data['serialnumber'];
+            $aset->brand = $data['brand'];
+            $aset->assigned_location = $data['location'];
+            $aset->current_location = $data['location'];
+            $aset->asset_category_id = $data['asset-category'];
+            $aset->division_id = $data['division_id'];
+            $aset->save();
+            return redirect('admin/searchAsset')->with('status', "Aset berhasil ditambahkan");
+        }
     }
 
     /**
@@ -60,7 +90,10 @@ class AssetController extends Controller
      */
     public function edit($id)
     {
-        //
+//        $data = Asset::where('id', $id)->first();
+//        return View::make('create',[
+//            'data' => $data
+//        ]);
     }
 
     /**

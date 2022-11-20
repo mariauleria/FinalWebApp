@@ -14,10 +14,7 @@ class AssetCategoryController extends Controller
      */
     public function index()
     {
-        $data = AssetCategory::all();
-        return view('admin.createAsset', [
-            'data' => $data
-        ]);
+        //
     }
 
     /**

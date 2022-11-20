@@ -15,18 +15,18 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        {{--                        @if($data == null)--}}
-                        {{ __('Tambahkan Aset') }}
-                        {{--                        @else--}}
-                        {{--                            {{ __('Edit Aset') }}--}}
-                        {{--                        @endif--}}
+                        @if($data == null)
+                            {{ __('Tambahkan Aset') }}
+                        @else
+                            {{ __('Edit Aset') }}
+                        @endif
                     </div>
 
                     <div class="card-body">
 
 
 
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('storeAsset') }}">
                             @csrf
 
                             <div class="row mb-3">
@@ -71,22 +71,27 @@
                                 </div>
                             </div>
 
+{{--                            hidden division id--}}
+                            <input type="hidden" name="division_id" id="division_id" value="{{ \Illuminate\Support\Facades\Auth::user()->division->id }}">
+
                             <div class="row mb-3">
-                                <label for="assetcategory" class="col-md-4 col-form-label text-md-end">{{ __('Kategori Aset') }}</label>
+                                <label for="asset-category" class="col-md-4 col-form-label text-md-end">{{ __('Kategori Aset') }}</label>
 
                                 <div class="col-md-6">
-                                    @foreach($data as $index => $item)
+                                    @foreach($show as $index => $item)
                                             <div class="mt-2">
                                                 <input class="form-check-input mt-1" type="radio" id="hide" name="asset-category" value="{{ $item->id }}" checked />
                                                 <label for="hide">{{ $item->name }}</label>
                                             </div>
                                     @endforeach
                                         <div class="mt-2">
-                                            <input class="form-check-input mt-1" type="radio" id="show" name="asset-category" value="show" />
+{{--                                            TO DO: value set return new assetcategory id--}}
+                                            <input class="form-check-input mt-1" type="radio" id="show" name="asset-category" value="" />
                                             <label for="show">Tambah Kategori Aset Baru</label>
                                         </div>
                                         <div id="box" style="display: none;">
-                                            <input id="new-asset-category" type="text" class="form-control mt-2 @error('new-asset-category') is-invalid @enderror" name="new-asset-category" value="{{ old('new-asset-category') }}" required autocomplete="new-asset-category" autofocus>
+{{--                                            TO DO: kalo nambahin kategori aset baru gimana?--}}
+                                            <input id="new-asset-category" type="text" class="form-control mt-2 @error('new-asset-category') is-invalid @enderror" name="new-asset-category" value="{{ old('new-asset-category') }}" />
 
                                             @error('new-asset-category')
                                             <span class="invalid-feedback" role="alert">
@@ -100,7 +105,11 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Tambahkan') }}
+                                        @if($data == null)
+                                            {{ __('Tambahkan') }}
+                                        @else
+                                            {{ __('Perbarui') }}
+                                        @endif
                                     </button>
                                 </div>
                             </div>
