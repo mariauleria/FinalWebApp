@@ -91,7 +91,6 @@ class AssetController extends Controller
     {
         $data = Asset::find($id);
         $show = AssetCategory::all();
-//        $data = Asset::where('id', $id)->first();
         return View::make('admin.editAsset', [
             'data' => $data,
             'show' => $show
