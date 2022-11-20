@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-    {{--    <link href="{{ asset('css/pizza.css') }}" rel="stylesheet">--}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 @endsection
 
 @section('js')
@@ -13,7 +13,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('Dashboard Admin') }}</div>
+                    <div class="card-header">{{ __('Kelola Aset') }}</div>
 
                     <div class="card-body">
 
@@ -24,8 +24,8 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Serial Number</th>
-                                <th scope="col">Division</th>
                                 <th scope="col">Category</th>
+                                <th scope="col">Brand</th>
                                 <th scope="col">Actions</th>
                             </tr>
                             </thead>
@@ -33,13 +33,12 @@
                             @foreach($data as $index => $item)
                                 <tr>
                                     {{--                masukin kolom--}}
-                                    <th scope="row">{{$index}}</th>
+                                    <th scope="row">{{$index+1}}</th>
                                     <td>{{$item->serial_number}}</td>
-                                    <td>{{$item->division->name}}</td>
                                     <td>{{$item->assetCategory->name}}</td>
+                                    <td>{{$item->brand}}</td>
                                     <td>
-                                        <a class="btn btn-small btn-info" href="{{ URL::to('assets/' . $item->id . '/edit') }}">Edit</a>
-                                        <a class="btn btn-small btn-info" href="#">Delete</a>
+                                        <a class="btn btn-small btn-info" href="{{ URL::to('admin/editAsset/' . $item->id) }}"><span class="material-symbols-outlined">edit_square</span></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -50,7 +49,7 @@
 
                     </div>
                 </div>
-                <a class="btn btn-small btn-success" href="{{ route('createAsset') }}">Tambah Aset Baru</a>
+                <a class="btn btn-small btn-success mt-3" href="{{ route('createAsset') }}">Tambah Aset Baru</a>
             </div>
         </div>
     </div>

@@ -32,8 +32,7 @@ class AssetController extends Controller
     {
         $show = AssetCategory::all();
         return View::make('admin.createAsset', [
-            'show' => $show,
-            'data' => null
+            'show' => $show
         ]);
     }
 
@@ -90,10 +89,13 @@ class AssetController extends Controller
      */
     public function edit($id)
     {
+        $data = Asset::find($id);
+        $show = AssetCategory::all();
 //        $data = Asset::where('id', $id)->first();
-//        return View::make('create',[
-//            'data' => $data
-//        ]);
+        return View::make('admin.editAsset', [
+            'data' => $data,
+            'show' => $show
+        ]);
     }
 
     /**
@@ -105,7 +107,14 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $aset = Asset::find($id);
+        $aset->serial_number = $request->input('serialnumber');
+        $aset->status = $request->input('asset-status');
+        $aset->assigned_location = $request->input('location');
+        $aset->brand = $request->input('brand');
+        $aset->asset_category_id = $request->input('asset_category');
+        $aset->update();
+        return redirect('admin/searchAsset')->with('status', 'Aset berhasil diperbaharui');
     }
 
     /**

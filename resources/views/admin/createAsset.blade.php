@@ -15,11 +15,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        @if($data == null)
                             {{ __('Tambahkan Aset') }}
-                        @else
-                            {{ __('Edit Aset') }}
-                        @endif
                     </div>
 
                     <div class="card-body">
@@ -90,7 +86,7 @@
                                             <label for="show">Tambah Kategori Aset Baru</label>
                                         </div>
                                         <div id="box" style="display: none;">
-{{--                                            TO DO: kalo nambahin kategori aset baru gimana?--}}
+{{--                                            TO DO: kalo nambahin kategori aset baru --}}
                                             <input id="new-asset-category" type="text" class="form-control mt-2 @error('new-asset-category') is-invalid @enderror" name="new-asset-category" value="{{ old('new-asset-category') }}" />
 
                                             @error('new-asset-category')
@@ -105,11 +101,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        @if($data == null)
                                             {{ __('Tambahkan') }}
-                                        @else
-                                            {{ __('Perbarui') }}
-                                        @endif
                                     </button>
                                 </div>
                             </div>
