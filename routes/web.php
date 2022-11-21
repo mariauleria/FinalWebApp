@@ -34,4 +34,5 @@ Route::put('updateAsset/{id}', [\App\Http\Controllers\AssetController::class, 'u
 //DELETE
 Route::delete('deleteAsset/{id}', [\App\Http\Controllers\AssetController::class, 'destroy']);
 //DOWNLOAD XLSX
-Route::get('export', [\App\Http\Controllers\AssetController::class, 'export'])->name('downloadAsset');
+Route::get('exportasset', [\App\Http\Controllers\AssetController::class, 'export'])->name('downloadAsset');
+Route::get('exportdeletedasset', [\App\Http\Controllers\DeletedAssetController::class, 'export'])->name('downloadDeletedAsset');

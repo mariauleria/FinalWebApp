@@ -15,6 +15,7 @@
 
                 <a class="btn btn-small btn-success mb-3" href="{{ route('createAsset') }}">Tambah Aset Baru</a>
                 <a class="btn btn-small btn-success mb-3" href="{{ route('downloadAsset') }}"><span class="material-symbols-outlined">download</span>Unduh Rekap Aset</a>
+                <a class="btn btn-small btn-success mb-3" href="{{ route('downloadDeletedAsset') }}"><span class="material-symbols-outlined">download</span>Unduh Aset Musnah</a>
 
                 <div class="card">
                     <div class="card-header">{{ __('Kelola Aset') }}</div>
