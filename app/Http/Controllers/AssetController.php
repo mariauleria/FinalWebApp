@@ -106,14 +106,29 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $aset = Asset::find($id);
-        $aset->serial_number = $request->input('serialnumber');
-        $aset->status = $request->input('asset-status');
-        $aset->assigned_location = $request->input('location');
-        $aset->brand = $request->input('brand');
-        $aset->asset_category_id = $request->input('asset_category');
-        $aset->update();
-        return redirect('admin/searchAsset')->with('status', 'Aset berhasil diperbaharui');
+        $validator = Validator::make($request->all(), [
+            'serialnumber' => 'required',
+            'location' => 'required',
+            'brand' => 'required',
+            'asset-status' => 'required',
+            'asset_category' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return redirect('admin/editAsset')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        else {
+            $aset = Asset::find($id);
+            $aset->serial_number = $request->input('serialnumber');
+            $aset->status = $request->input('asset-status');
+            $aset->assigned_location = $request->input('location');
+            $aset->brand = $request->input('brand');
+            $aset->asset_category_id = $request->input('asset_category');
+            $aset->update();
+            return redirect('admin/searchAsset')->with('status', 'Aset berhasil diperbaharui');
+        }
     }
 
     /**
@@ -124,6 +139,8 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $aset = Asset::find($id);
+        $aset->delete();
+        return redirect('admin/searchAsset')->with('status', 'Aset berhasil dihapus');
     }
 }

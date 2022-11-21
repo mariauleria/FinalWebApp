@@ -39,6 +39,11 @@
                                     <td>{{$item->brand}}</td>
                                     <td>
                                         <a class="btn btn-small btn-info" href="{{ URL::to('admin/editAsset/' . $item->id) }}"><span class="material-symbols-outlined">edit_square</span></a>
+                                        <form action="{{ url('deleteAsset/' . $item->id) }}" method="post">
+                                            <button class="btn btn-small btn-info" type="submit"><span class="material-symbols-outlined">delete</span></button>
+                                            <input type="hidden" name="_method" value="delete" />
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
@@ -50,6 +55,7 @@
                     </div>
                 </div>
                 <a class="btn btn-small btn-success mt-3" href="{{ route('createAsset') }}">Tambah Aset Baru</a>
+                <a class="btn btn-small btn-success mt-3" href="">Unduh Rekap Aset</a>
             </div>
         </div>
     </div>

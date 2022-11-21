@@ -32,3 +32,4 @@ Route::post('admin/searchAsset', [\App\Http\Controllers\AssetController::class, 
 Route::get('admin/editAsset/{id}', [\App\Http\Controllers\AssetController::class, 'edit']);
 Route::put('updateAsset/{id}', [\App\Http\Controllers\AssetController::class, 'update']);
 //DELETE
+Route::delete('deleteAsset/{id}', [\App\Http\Controllers\AssetController::class, 'destroy']);
