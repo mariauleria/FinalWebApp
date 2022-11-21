@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\AssetCategory;
 use App\Models\DeletedAsset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Maatwebsite\Excel\Facades\Excel;
@@ -157,7 +158,12 @@ class AssetController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function export(){
-        $aset = Asset::select(['id', 'serial_number', 'status', 'brand', 'assigned_location', 'current_location', 'division_id', 'asset_category_id'])->get();
+        $aset = DB::table('assets')
+            ->join('divisions', 'assets.division_id', '=', 'divisions.id')
+            ->join('asset_categories', 'assets.asset_category_id', '=', 'asset_categories.id')
+            ->select('assets.id', 'assets.serial_number', 'assets.status', 'assets.brand', 'assets.assigned_location', 'assets.current_location', 'divisions.name as divisi', 'asset_categories.name as jenis')
+            ->get();
+        
         return Excel::download(new AssetExport($aset), 'rekap_aset.xlsx');
     }
 }
