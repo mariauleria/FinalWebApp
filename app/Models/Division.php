@@ -12,4 +12,12 @@ class Division extends Model
     public function user(){
         return $this->hasOne(User::class);
     }
+
+    public function assets(){
+        return $this->hasMany(Asset::class);
+    }
+
+    public function DeletedAssets(){
+        return $this->hasMany(DeletedAsset::class);
+    }
 }

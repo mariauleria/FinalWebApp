@@ -12,4 +12,8 @@ class AssetCategory extends Model
     public function assets(){
         return $this->hasMany(Asset::class);
     }
+
+    public function DeletedAssets(){
+        return $this->hasMany(DeletedAsset::class);
+    }
 }

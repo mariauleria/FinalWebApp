@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\AssetCategory;
+use App\Models\DeletedAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -140,6 +141,10 @@ class AssetController extends Controller
     public function destroy($id)
     {
         $aset = Asset::find($id);
+
+        $d_aset = new DeletedAssetController();
+        $d_aset->store($aset);
+
         $aset->delete();
         return redirect('admin/searchAsset')->with('status', 'Aset berhasil dihapus');
     }
