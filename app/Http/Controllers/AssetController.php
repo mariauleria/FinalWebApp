@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AssetExport;
 use App\Models\Asset;
 use App\Models\AssetCategory;
 use App\Models\DeletedAsset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AssetController extends Controller
 {
@@ -147,5 +149,15 @@ class AssetController extends Controller
 
         $aset->delete();
         return redirect('admin/searchAsset')->with('status', 'Aset berhasil dihapus');
+    }
+
+    /**
+     * Export database table to excel .xlsx file
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export(){
+        $aset = Asset::select(['id', 'serial_number', 'status', 'brand', 'assigned_location', 'current_location', 'division_id', 'asset_category_id'])->get();
+        return Excel::download(new AssetExport($aset), 'rekap_aset.xlsx');
     }
 }
