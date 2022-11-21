@@ -55,8 +55,7 @@
                     </div>
                 </div>
                 <a class="btn btn-small btn-success mt-3" href="{{ route('createAsset') }}">Tambah Aset Baru</a>
-{{--                TO DO: EXPORT KE EXCEL--}}
-                <a class="btn btn-small btn-success mt-3" href="#"><span class="material-symbols-outlined">download</span>Unduh Rekap Aset</a>
+                <a class="btn btn-small btn-success mt-3" href="{{ route('downloadAsset') }}"><span class="material-symbols-outlined">download</span>Unduh Rekap Aset</a>
             </div>
         </div>
     </div>
