@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AssetCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AssetCategoryController extends Controller
 {
@@ -33,9 +34,13 @@ class AssetCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(String $new_category)
     {
-        //
+        $cat = new AssetCategory;
+        $cat->name = $new_category;
+        $cat->save();
+
+        return DB::table('asset_categories')->max('id');
     }
 
     /**

@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //TO DO: validate other user
+        // TODO: validate other user
         $res = $this->validateUser(1);
         if($res->count()){
             return view('home');

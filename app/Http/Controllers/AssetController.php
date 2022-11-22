@@ -67,7 +67,17 @@ class AssetController extends Controller
             $aset->brand = $data['brand'];
             $aset->assigned_location = $data['location'];
             $aset->current_location = $data['location'];
-            $aset->asset_category_id = $data['asset-category'];
+
+            if($data['new-asset-category'] != null){
+                $new_category = new AssetCategoryController();
+                $new_cat_id = $new_category->store($data['new-asset-category']);
+
+                $aset->asset_category_id = $new_cat_id;
+            }
+            else{
+                $aset->asset_category_id = $data['asset-category'];
+            }
+
             $aset->division_id = $data['division_id'];
             $aset->save();
             return redirect('admin/searchAsset')->with('message', "Aset Berhasil Ditambahkan");

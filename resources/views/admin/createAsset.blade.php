@@ -81,12 +81,10 @@
                                             </div>
                                     @endforeach
                                         <div class="mt-2">
-{{--                                            TO DO: value set return new assetcategory id--}}
                                             <input class="form-check-input mt-1" type="radio" id="show" name="asset-category" value="" />
                                             <label for="show">Tambah Kategori Aset Baru</label>
                                         </div>
                                         <div id="box" style="display: none;">
-{{--                                            TO DO: kalo nambahin kategori aset baru --}}
                                             <input id="new-asset-category" type="text" class="form-control mt-2 @error('new-asset-category') is-invalid @enderror" name="new-asset-category" value="{{ old('new-asset-category') }}" />
 
                                             @error('new-asset-category')

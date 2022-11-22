@@ -23,7 +23,6 @@ class AssetExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        // TODO: Implement headings() method.
         return [
             'id',
             'nomor seri',

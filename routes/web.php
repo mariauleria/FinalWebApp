@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//TO DO: ini klo udh login gabisa ke dashboard page / nya malah ke login mesti cek user session
+// TODO: ini klo udh login gabisa ke dashboard page / nya malah ke login mesti cek user session
 Route::get('/', function () {
     //TO ASK: ini perlu pake controller?? utk ke login pagenya
     return view('auth.login');
