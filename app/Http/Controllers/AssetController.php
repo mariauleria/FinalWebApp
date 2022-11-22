@@ -70,7 +70,7 @@ class AssetController extends Controller
             $aset->asset_category_id = $data['asset-category'];
             $aset->division_id = $data['division_id'];
             $aset->save();
-            return redirect('admin/searchAsset')->with('status', "Aset berhasil ditambahkan");
+            return redirect('admin/searchAsset')->with('message', "Aset Berhasil Ditambahkan");
         }
     }
 
@@ -131,7 +131,7 @@ class AssetController extends Controller
             $aset->brand = $request->input('brand');
             $aset->asset_category_id = $request->input('asset_category');
             $aset->update();
-            return redirect('admin/searchAsset')->with('status', 'Aset berhasil diperbaharui');
+            return redirect('admin/searchAsset')->with('message', 'Aset Berhasil Diperbaharui');
         }
     }
 
@@ -141,15 +141,15 @@ class AssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $aset = Asset::find($id);
-
+        $aset = Asset::find($request->asset_delete_id);
         $d_aset = new DeletedAssetController();
         $d_aset->store($aset);
 
         $aset->delete();
-        return redirect('admin/searchAsset')->with('status', 'Aset berhasil dihapus');
+        return redirect('admin/searchAsset')->with('message', 'Aset Berhasil Dihapus');
+
     }
 
     /**
@@ -163,7 +163,7 @@ class AssetController extends Controller
             ->join('asset_categories', 'assets.asset_category_id', '=', 'asset_categories.id')
             ->select('assets.id', 'assets.serial_number', 'assets.status', 'assets.brand', 'assets.assigned_location', 'assets.current_location', 'divisions.name as divisi', 'asset_categories.name as jenis')
             ->get();
-        
+
         return Excel::download(new AssetExport($aset), 'rekap_aset.xlsx');
     }
 }
