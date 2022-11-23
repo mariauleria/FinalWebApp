@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Division;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,10 +64,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $data = User::find($id);
-        $roles = Role::all()->except(5);
+        $roles = Role::all()->except([1, 5]);
+        $dept = Division::all();
         return View::make('superadmin.editUser', [
             'data' => $data,
-            'roles' => $roles
+            'roles' => $roles,
+            'dept' => $dept
         ]);
     }
 
@@ -79,7 +82,11 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->division_id = $request->input('department');
+        $user->role_id = $request->input('role');
+        $user->update();
+        return redirect('superadmin/home')->with('message', 'Data User Berhasil Diperbaharui');
     }
 
     /**
@@ -88,8 +95,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        $user = User::find($request->user_delete_id);
+        $user->delete();
+        return redirect('superadmin/home')->with('message', 'User Berhasil Dihapus');
     }
 }

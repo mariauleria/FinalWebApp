@@ -47,4 +47,6 @@ Route::get('exportdeletedasset', [\App\Http\Controllers\DeletedAssetController::
 Route::get('superadmin/home', [\App\Http\Controllers\UserController::class, 'index']);
 //UPDATE
 Route::get('superadmin/editUser/{id}', [\App\Http\Controllers\UserController::class, 'edit']);
-
+Route::put('updateUser/{id}', [\App\Http\Controllers\UserController::class, 'update']);
+//DELETE
+Route::post('deleteUser', [\App\Http\Controllers\UserController::class, 'destroy']);
