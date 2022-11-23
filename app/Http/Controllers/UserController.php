@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
 {
@@ -14,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::all();
+        $data = User::all()->diff(User::whereIn('role_id', [1, 5])->get());
         return view('superadmin.home', [
             'data' => $data
         ]);
@@ -60,7 +62,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $data = User::find($id);
+        $roles = Role::all()->except(5);
+        return View::make('superadmin.editUser', [
+            'data' => $data,
+            'roles' => $roles
+        ]);
     }
 
     /**

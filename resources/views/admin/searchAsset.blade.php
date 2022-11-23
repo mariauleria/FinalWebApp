@@ -65,11 +65,11 @@
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Serial Number</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Brand</th>
+                                <th scope="col">Nomor Seri</th>
+                                <th scope="col">Jenis</th>
+                                <th scope="col">Merek</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Actions</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>

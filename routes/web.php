@@ -23,8 +23,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//REQUEST PEMINJAMAN
+//READ
 Route::get('dashboard/{p}', [\App\Http\Controllers\RequestController::class, 'index']);
 
+//ASSET
 //READ
 Route::get('admin/searchAsset', [\App\Http\Controllers\AssetController::class, 'index'])->name('searchAsset');
 //CREATE
@@ -39,5 +42,9 @@ Route::post('deleteAsset', [\App\Http\Controllers\AssetController::class, 'destr
 Route::get('exportasset', [\App\Http\Controllers\AssetController::class, 'export'])->name('downloadAsset');
 Route::get('exportdeletedasset', [\App\Http\Controllers\DeletedAssetController::class, 'export'])->name('downloadDeletedAsset');
 
-//SUPERADMIN
+//USER
+//READ
 Route::get('superadmin/home', [\App\Http\Controllers\UserController::class, 'index']);
+//UPDATE
+Route::get('superadmin/editUser/{id}', [\App\Http\Controllers\UserController::class, 'edit']);
+
