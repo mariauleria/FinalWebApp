@@ -13,7 +13,16 @@ class RequestController extends Controller
      */
     public function index($p)
     {
-        return view('admin.home');
+        if($p == 'student'){
+            // TODO: data yg dikirim ke student apa aja
+        }
+        else if($p == 'admin'){
+            // TODO: data yg dikirim ke admin apa aja
+        }
+        else if($p == 'approver'){
+            // TODO: data yg dikirim ke approver apa aja
+        }
+        return view($p . '.home');
     }
 
     /**
