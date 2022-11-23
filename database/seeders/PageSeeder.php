@@ -21,5 +21,9 @@ class PageSeeder extends Seeder
         Page::create([
             'name' => 'admin.home'
         ]);
+
+        Page::create([
+            'name' => 'superadmin.home'
+        ]);
     }
 }

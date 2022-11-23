@@ -28,14 +28,28 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // TODO: validate other user
-        $res = $this->validateUser(1);
-        if($res->count()){
-            return view('home');
+        for($i = 1; $i <= 5; $i++){
+            $res = $this->validateUser($i);
+            if($res->count()){
+                foreach ($res as $r){
+                    $role = $r->role_id;
+                }
+
+                $pages = DB::table('role_page_mappings')
+                    ->join('pages', 'role_page_mappings.page_id', '=', 'pages.id')
+                    ->select('pages.name')
+                    ->where('role_id', $role)
+                    ->where('page_id', $i)
+                    ->get();
+
+                foreach ($pages as $page){
+                    $p = $page->name;
+                }
+
+                return redirect($p);
+            }
         }
-        else{
-            return view('admin.home');
-        }
+
     }
 
     public function validateUser(int $page_id){

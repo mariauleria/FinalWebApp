@@ -21,7 +21,7 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $data =Asset::all();
+        $data = Asset::all();
         return view('admin.searchAsset', [
             'data' => $data
         ]);
