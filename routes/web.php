@@ -50,3 +50,11 @@ Route::get('superadmin/editUser/{id}', [\App\Http\Controllers\UserController::cl
 Route::put('updateUser/{id}', [\App\Http\Controllers\UserController::class, 'update']);
 //DELETE
 Route::post('deleteUser', [\App\Http\Controllers\UserController::class, 'destroy']);
+
+//DIVISION
+//CREATE
+
+//READ
+Route::get('superadmin/division', [\App\Http\Controllers\DivisionController::class, 'index'])->name('readDivision');
+//DELETE
+Route::delete('deleteDivision/{id}', [\App\Http\Controllers\DivisionController::class, 'destroy']);

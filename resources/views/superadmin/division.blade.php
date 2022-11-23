@@ -9,11 +9,14 @@
 @endsection
 
 @section('content')
+
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
 
-                <a class="btn btn-small btn-success mb-3" href="{{ route('readDivision') }}">Lihat Departemen</a>
+{{--                TODO: create new department pake modal--}}
+                <a class="btn btn-small btn-success mb-3" href="#"><span class="material-symbols-outlined">add</span>Tambah Departemen Baru</a>
 
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard Super Admin') }}</div>
@@ -30,30 +33,22 @@
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Nama</th>
-                                <th scope="col">Binusian ID</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">No. HP</th>
-                                <th scope="col">Alamat</th>
-                                <th scope="col">Departemen</th>
-                                <th scope="col">Role</th>
+                                <th scope="col">Nama Departemen</th>
                                 <th scope="col">Aksi</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($data as $index => $item)
                                 <tr>
-{{--                                masukin kolom--}}
+                                    {{--                                masukin kolom--}}
                                     <th scope="row">{{$index+1}}</th>
                                     <td>{{$item->name}}</td>
-                                    <td>{{$item->binusianid}}</td>
-                                    <td>{{$item->email}}</td>
-                                    <td>{{$item->phone}}</td>
-                                    <td>{{$item->address}}</td>
-                                    <td>{{$item->division->name}}</td>
-                                    <td>{{$item->role->name}}</td>
                                     <td>
-                                        <a class="btn btn-small btn-info" href="{{ URL::to('superadmin/editUser/' . $item->id) }}"><span class="material-symbols-outlined">edit_square</span></a>
+                                        <form action="{{ url('deleteDivision/' . $item->id) }}" method="post">
+                                            <button class="btn btn-small btn-danger" type="submit"><span class="material-symbols-outlined">delete</span></button>
+                                            <input type="hidden" name="_method" value="delete" />
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        </form>
                                     </td>
                                 </tr>
                             @endforeach
