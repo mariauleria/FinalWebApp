@@ -40,7 +40,11 @@ class DivisionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $division = new Division;
+        $division->name = $request->input('division-name');
+        $division->approver = $request->input('approver');
+        $division->save();
+        return redirect('superadmin/division')->with('message', 'Departemen Baru Berhasil Ditambahkan');
     }
 
     /**

@@ -53,7 +53,7 @@ Route::post('deleteUser', [\App\Http\Controllers\UserController::class, 'destroy
 
 //DIVISION
 //CREATE
-
+Route::post('superadmin/division', [\App\Http\Controllers\DivisionController::class, 'store'])->name('storeDivision');
 //READ
 Route::get('superadmin/division', [\App\Http\Controllers\DivisionController::class, 'index'])->name('readDivision');
 //DELETE
