@@ -27,7 +27,7 @@
 
             </div>
 
-            <a class="btn btn-small btn-success" href="{{ route('searchAsset') }}">Lihat Aset</a>
+            <a class="btn btn-small btn-success" href="{{ url('searchAsset/' . \Illuminate\Support\Facades\Auth::user()->division->id) }}">Lihat Aset</a>
         </div>
     </div>
 </div>

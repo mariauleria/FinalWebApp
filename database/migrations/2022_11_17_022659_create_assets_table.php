@@ -16,7 +16,7 @@ class CreateAssetsTable extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->string('serial_number')->unique();
-            $table->string('status')->default('in storage');
+            $table->string('status')->default('tersedia');
             $table->string('brand');
             $table->string('assigned_location');
             $table->string('current_location');

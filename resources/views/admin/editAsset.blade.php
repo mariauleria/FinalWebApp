@@ -94,18 +94,18 @@
 
                                 <div class="col-md-6">
                                     <select class="form-select" name="asset-status" id="asset-status">
-                                        @if($data->status == 'in storage')
-                                            <option value="in storage" selected>Tersedia di penyimpanan</option>
-                                            <option value="not available">Tidak tersedia/rusak</option>
-                                            <option value="in repair">Dalam perbaikan</option>
-                                        @elseif($data->status == 'not available')
-                                            <option value="in storage">Tersedia di penyimpanan</option>
-                                            <option value="not available" selected>Tidak tersedia/rusak</option>
-                                            <option value="in repair">Dalam perbaikan</option>
-                                        @elseif($data->status == 'in repair')
-                                            <option value="in storage">Tersedia di penyimpanan</option>
-                                            <option value="not available">Tidak tersedia/rusak</option>
-                                            <option value="in repair" selected>Dalam perbaikan</option>
+                                        @if($data->status == 'tersedia')
+                                            <option value="tersedia" selected>Tersedia di penyimpanan</option>
+                                            <option value="tidak tersedia">Tidak tersedia/rusak</option>
+                                            <option value="dalam perbaikan">Dalam perbaikan</option>
+                                        @elseif($data->status == 'tidak tersedia')
+                                            <option value="tersedia">Tersedia di penyimpanan</option>
+                                            <option value="tidak tersedia" selected>Tidak tersedia/rusak</option>
+                                            <option value="dalam perbaikan">Dalam perbaikan</option>
+                                        @elseif($data->status == 'dalam perbaikan')
+                                            <option value="tersedia">Tersedia di penyimpanan</option>
+                                            <option value="tidak tersedia">Tidak tersedia/rusak</option>
+                                            <option value="dalam perbaikan" selected>Dalam perbaikan</option>
                                         @endif
                                     </select>
                                 </div>

@@ -20,5 +20,8 @@ class AssetCategorySeeder extends Seeder
         AssetCategory::create([
             'name' => 'Printer'
         ]);
+        AssetCategory::create([
+            'name' => 'Mic'
+        ]);
     }
 }

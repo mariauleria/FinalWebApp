@@ -15,15 +15,15 @@ class PageSeeder extends Seeder
     public function run()
     {
         Page::create([
-            'name' => 'home'
+            'name' => 'dashboard/student'
         ]);
 
         Page::create([
-            'name' => 'admin.home'
+            'name' => 'dashboard/admin'
         ]);
 
         Page::create([
-            'name' => 'superadmin.home'
+            'name' => 'superadmin/home'
         ]);
     }
 }

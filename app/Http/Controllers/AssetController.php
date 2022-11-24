@@ -19,9 +19,9 @@ class AssetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $data = Asset::all();
+        $data = Asset::where('division_id', $id)->get();
         return view('admin.searchAsset', [
             'data' => $data
         ]);
@@ -80,7 +80,7 @@ class AssetController extends Controller
 
             $aset->division_id = $data['division_id'];
             $aset->save();
-            return redirect('admin/searchAsset')->with('message', "Aset Berhasil Ditambahkan");
+            return redirect('searchAsset/' . $data['division_id'])->with('message', "Aset Berhasil Ditambahkan");
         }
     }
 
@@ -129,7 +129,7 @@ class AssetController extends Controller
         ]);
 
         if($validator->fails()){
-            return redirect('admin/editAsset')
+            return redirect('admin/editAsset/' . $id)
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -141,7 +141,7 @@ class AssetController extends Controller
             $aset->brand = $request->input('brand');
             $aset->asset_category_id = $request->input('asset_category');
             $aset->update();
-            return redirect('admin/searchAsset')->with('message', 'Aset Berhasil Diperbaharui');
+            return redirect('searchAsset/' . \Illuminate\Support\Facades\Auth::user()->division->id)->with('message', 'Aset Berhasil Diperbaharui');
         }
     }
 
@@ -158,7 +158,7 @@ class AssetController extends Controller
         $d_aset->store($aset);
 
         $aset->delete();
-        return redirect('admin/searchAsset')->with('message', 'Aset Berhasil Dihapus');
+        return redirect('searchAsset/' . \Illuminate\Support\Facades\Auth::user()->division->id)->with('message', 'Aset Berhasil Dihapus');
 
     }
 
@@ -169,6 +169,7 @@ class AssetController extends Controller
      */
     public function export(){
         $aset = DB::table('assets')
+            ->where('division_id', '=', \Illuminate\Support\Facades\Auth::user()->division->id)
             ->join('divisions', 'assets.division_id', '=', 'divisions.id')
             ->join('asset_categories', 'assets.asset_category_id', '=', 'asset_categories.id')
             ->select('assets.id', 'assets.serial_number', 'assets.status', 'assets.brand', 'assets.assigned_location', 'assets.current_location', 'divisions.name as divisi', 'asset_categories.name as jenis')

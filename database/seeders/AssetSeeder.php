@@ -16,12 +16,32 @@ class AssetSeeder extends Seeder
     {
         Asset::create([
             'serial_number' => 'SN1234',
-            'status' => 'in storage',
+            'status' => 'tersedia',
             'brand' => 'Canon',
-            'assigned_location' => 'Prodi DKV Lt.6',
-            'current_location' => 'Prodi DKV Lt.6',
+            'assigned_location' => 'Prodi DI Lt.6',
+            'current_location' => 'Prodi DI Lt.6',
             'division_id' => 3,
             'asset_category_id' => 1
+        ]);
+
+        Asset::create([
+            'serial_number' => 'AB7869',
+            'status' => 'tersedia',
+            'brand' => 'Nikon',
+            'assigned_location' => 'Prodi DKV Lt.6',
+            'current_location' => 'Prodi DKV Lt.6',
+            'division_id' => 2,
+            'asset_category_id' => 1
+        ]);
+
+        Asset::create([
+            'serial_number' => 'GF4363',
+            'status' => 'tersedia',
+            'brand' => 'HP',
+            'assigned_location' => 'Prodi DKV Lt.6',
+            'current_location' => 'Prodi DKV Lt.6',
+            'division_id' => 2,
+            'asset_category_id' => 2
         ]);
     }
 }

@@ -100,6 +100,7 @@ class DeletedAssetController extends Controller
      */
     public function export(){
         $d_aset = DB::table('deleted_assets')
+            ->where('division_id', '=', \Illuminate\Support\Facades\Auth::user()->division->id)
             ->join('divisions', 'deleted_assets.division_id', '=', 'divisions.id')
             ->join('asset_categories', 'deleted_assets.asset_category_id', '=', 'asset_categories.id')
             ->select('deleted_assets.id', 'deleted_assets.serial_number', 'deleted_assets.brand', 'deleted_assets.assigned_location', 'divisions.name as divisi', 'asset_categories.name as jenis')

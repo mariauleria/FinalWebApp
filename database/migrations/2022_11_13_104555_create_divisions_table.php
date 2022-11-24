@@ -16,7 +16,7 @@ class CreateDivisionsTable extends Migration
         Schema::create('divisions', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('approver');
+            $table->integer('approver');
             $table->timestamps();
         });
     }

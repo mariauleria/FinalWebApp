@@ -26,10 +26,9 @@
                             <div class="mb-3">
                                 <label for="division-name" class="col-form-label">{{ __('Pengelola Aset') }}</label>
                                 <div class="mt-2">
-                                    <input class="form-check-input mt-1" type="checkbox" checked onclick="return false" />
-                                    <label class="form-check-label">Admin</label>
-                                    <input type="hidden" name="approver" id="approver" value="0">
-                                    <input class="form-check-input mt-1 ms-2" type="checkbox" value="1" id="approver" name="approver" />
+                                    <input class="form-check-input mt-1" type="checkbox" value="1" id="approver" name="approver" checked onclick="return false" />
+                                    <label class="form-check-label" for="approver">Admin</label>
+                                    <input class="form-check-input mt-1 ms-2" type="checkbox" value="2" id="approver" name="approver" />
                                     <label class="form-check-label" for="approver">Approver</label>
                                 </div>
                             </div>

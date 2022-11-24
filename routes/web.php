@@ -29,7 +29,7 @@ Route::get('dashboard/{p}', [\App\Http\Controllers\RequestController::class, 'in
 
 //ASSET
 //READ
-Route::get('admin/searchAsset', [\App\Http\Controllers\AssetController::class, 'index'])->name('searchAsset');
+Route::get('searchAsset/{id}', [\App\Http\Controllers\AssetController::class, 'index']);
 //CREATE
 Route::get('admin/createAsset', [\App\Http\Controllers\AssetController::class, 'create'])->name('createAsset');
 Route::post('admin/searchAsset', [\App\Http\Controllers\AssetController::class, 'store'])->name('storeAsset');
