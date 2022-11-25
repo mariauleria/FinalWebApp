@@ -45,7 +45,7 @@ class RequestController extends Controller
      */
     public function create()
     {
-        //
+        return view('student/createRequest');
     }
 
     /**

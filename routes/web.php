@@ -26,6 +26,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //REQUEST PEMINJAMAN
 //READ
 Route::get('dashboard/{p}', [\App\Http\Controllers\RequestController::class, 'index']);
+//CREATE
+Route::get('student/createRequest', [\App\Http\Controllers\RequestController::class, 'create'])->name('createRequest');
 
 //ASSET
 //READ
