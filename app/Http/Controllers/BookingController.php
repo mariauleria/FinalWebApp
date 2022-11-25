@@ -3,37 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class RequestController extends Controller
+class BookingController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($p)
+    public function index()
     {
-        if($p == 'student'){
-            $user_id = \Illuminate\Support\Facades\Auth::user()->id;
-            $data = \App\Models\Request::where('user_id', $user_id)->get();
-        }
-        else if($p == 'admin'){
-            // TODO: data yg dikirim ke admin apa aja
-            $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
-            $data = DB::table('requests')
-                ->join('users', 'requests.user_id', '=', 'users.id')
-                ->select('requests.*')
-                ->where('users.division_id', '=', $user_div_id)
-                ->get();
-        }
-        else if($p == 'approver'){
-            // TODO: data yg dikirim ke approver apa aja
-
-        }
-        return view($p . '.home', [
-            'data' => $data
-        ]);
+        //
     }
 
     /**

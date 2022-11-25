@@ -9,15 +9,16 @@ class Division extends Model
 {
     use HasFactory;
 
-    public function user(){
-        return $this->hasOne(User::class);
+    public function users(){
+        return $this->hasMany(User::class);
     }
 
     public function assets(){
         return $this->hasMany(Asset::class);
     }
 
-    public function DeletedAssets(){
+    public function deletedassets(){
         return $this->hasMany(DeletedAsset::class);
     }
+//    3 diatas dah bener
 }

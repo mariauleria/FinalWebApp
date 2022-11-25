@@ -9,11 +9,12 @@ class Role extends Model
 {
     use HasFactory;
 
-    public function user(){
-        return $this->hasOne(User::class);
+    public function users(){
+        return $this->hasMany(User::class);
     }
 
-    public function RolePageMapping(){
+    public function RolePageMappings(){
         return $this->hasMany(RolePageMapping::class);
     }
+//    2 above dah bener
 }

@@ -54,5 +54,8 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class, 'role_id');
     }
 
-
+    public function requests(){
+        return $this->hasMany(Request::class);
+    }
+//    3 above dah bener
 }

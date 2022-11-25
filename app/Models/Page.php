@@ -9,7 +9,8 @@ class Page extends Model
 {
     use HasFactory;
 
-    public function RolePageMapping(){
+    public function RolePageMappings(){
         return $this->hasMany(RolePageMapping::class);
     }
+//    1 diatas dah bener
 }
