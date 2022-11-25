@@ -19,9 +19,11 @@ class RequestController extends Controller
             $data = \App\Models\Request::where('user_id', $user_id)->get();
         }
         else if($p == 'admin'){
-            // TODO: data yg dikirim ke admin apa aja
             $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
             $data = DB::table('requests')
+                ->where('status', '=', 'waiting approval')
+                ->orWhere('status', '=', 'approved')
+                ->orWhere('status', '=', 'on use')
                 ->join('users', 'requests.user_id', '=', 'users.id')
                 ->select('requests.*')
                 ->where('users.division_id', '=', $user_div_id)
