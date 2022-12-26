@@ -29,9 +29,9 @@ class CreateRequestsTable extends Migration
             $table->dateTime('return_date');
             $table->text('purpose');
             $table->string('status')->default('waiting approval');
-            $table->text('return_notes');
+            $table->text('return_notes')->nullable();
             $table->integer('track_approver')->default('0');
-            $table->string('lokasi');
+            $table->string('lokasi', 1000);
             $table->boolean('flag_return')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');

@@ -59,6 +59,17 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
+            'name' => 'Dummy Staff',
+            'email' => 'dummy.staff@binus.edu',
+            'password' => bcrypt('12345'),
+            'binusianid' => 'BNDUMMY',
+            'phone' => '08111111',
+            'address' => 'Jl. Dummy No.5',
+            'division_id' => '3',
+            'role_id' => '2'
+        ]);
+
+        User::create([
             'name' => 'superadmin',
             'email' => 'superadmin@super.co',
             'password' => bcrypt('12345'),

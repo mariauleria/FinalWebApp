@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -34,7 +36,25 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new_request = new RequestController();
+        $request_id = $new_request->store($request);
+
+        $data = $request->input();
+        $assets = $data['assets'];
+
+        foreach ($assets as $asset){
+            $booking = new Booking();
+            $booking->request_id = $request_id;
+            $booking->asset_id = $asset;
+            $category_id = DB::table('assets')
+                ->where('id', '=', $asset)
+                ->select('asset_category_id')
+                ->get();
+            $booking->asset_category_id = $category_id[0]->asset_category_id;
+            $booking->save();
+        }
+
+        return redirect('dashboard/student')->with('message', "Request Berhasil Ditambahkan");
     }
 
     /**

@@ -53,6 +53,7 @@
 {{--                                            <input type="hidden" name="_method" value="delete" />--}}
 {{--                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 {{--                                        </form>--}}
+                                        <a class="btn btn-small btn-danger" href="{{ URL::to('admin/editAsset/' . $item->id) }}"><span class="material-symbols-outlined">delete</span></a>
                                     </td>
                                 </tr>
                             @endforeach

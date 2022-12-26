@@ -26,8 +26,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //REQUEST PEMINJAMAN
 //READ
 Route::get('dashboard/{p}', [\App\Http\Controllers\RequestController::class, 'index']);
+//CHECK TGL
+Route::get('student/checkRequest', [\App\Http\Controllers\RequestController::class, 'check'])->name('checkRequest');
 //CREATE
-Route::get('student/createRequest', [\App\Http\Controllers\RequestController::class, 'create'])->name('createRequest');
+Route::post('student/createRequest', [\App\Http\Controllers\RequestController::class, 'createRequestDetail'])->name('createRequest');
+Route::post('student/createRequestDetail', [\App\Http\Controllers\RequestController::class, 'create'])->name('createRequestDetail');
+//CONFIRM
+Route::post('student/confirmRequest', [\App\Http\Controllers\RequestController::class, 'confirm'])->name('confirmRequest');
+Route::post('', [\App\Http\Controllers\BookingController::class, 'store'])->name('storeRequest');
 
 //ASSET
 //READ

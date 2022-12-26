@@ -21,8 +21,8 @@ class CreateBookingsTable extends Migration
             $table->foreign('request_id')->references('id')->on('requests');
             $table->foreign('asset_id')->references('id')->on('assets');
             $table->foreign('asset_category_id')->references('id')->on('asset_categories');
-            $table->dateTime('taken_date');
-            $table->date('realize_return_date');
+            $table->dateTime('taken_date')->nullable();
+            $table->date('realize_return_date')->nullable();
             $table->timestamps();
         });
     }

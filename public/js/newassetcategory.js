@@ -15,3 +15,8 @@ const radioButtons = document.querySelectorAll('input[name="asset-category"]');
 radioButtons.forEach(radio => {
     radio.addEventListener('click', handleRadioClick);
 });
+
+const radioButtonslokasi = document.querySelectorAll('input[name="lokasi"]');
+radioButtonslokasi.forEach(radio => {
+    radio.addEventListener('click', handleRadioClick);
+});
