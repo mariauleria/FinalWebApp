@@ -59,10 +59,12 @@ class RequestController extends Controller
 
 //        dd($book_date, $return_date);
 
+        $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
         $assets = DB::table('assets')
             ->join('asset_categories', 'assets.asset_category_id', '=', 'asset_categories.id')
             ->select('assets.*', 'asset_categories.name')
             ->where('status', 'tersedia')
+            ->where('division_id', '=', $user_div_id)
             ->get();
 
         $avail_items = array();
