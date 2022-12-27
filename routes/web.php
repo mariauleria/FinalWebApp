@@ -69,4 +69,4 @@ Route::post('superadmin/division', [\App\Http\Controllers\DivisionController::cl
 //READ
 Route::get('superadmin/division', [\App\Http\Controllers\DivisionController::class, 'index'])->name('readDivision');
 //DELETE
-Route::delete('deleteDivision/{id}', [\App\Http\Controllers\DivisionController::class, 'destroy']);
+Route::post('deleteDivision', [\App\Http\Controllers\DivisionController::class, 'destroy']);

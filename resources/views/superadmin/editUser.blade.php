@@ -166,7 +166,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
 
-                                    <button type="button" class="btn btn-danger deleteUserBtn" value="{{ $data->id }}">Hapus User</button>
+                                    <button type="button" class="btn btn-danger deleteUserBtn" value="{{ $data->id }}"><span class="material-symbols-outlined">delete</span>Hapus User</button>
 
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Perbarui Data') }}

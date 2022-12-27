@@ -53,8 +53,9 @@
                                     <td>{{$item->division->name}}</td>
                                     <td>{{$item->role->name}}</td>
                                     <td>
-{{--                                        TODO: tambahin delete button disini direct ke edit usernya--}}
+{{--                                        DONE: tambahin delete button disini direct ke edit usernya--}}
                                         <a class="btn btn-small btn-info" href="{{ URL::to('superadmin/editUser/' . $item->id) }}"><span class="material-symbols-outlined">edit_square</span></a>
+                                        <a class="btn btn-small btn-danger" href="{{ URL::to('superadmin/editUser/' . $item->id) }}"><span class="material-symbols-outlined">delete</span></a>
                                     </td>
                                 </tr>
                             @endforeach

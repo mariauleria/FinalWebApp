@@ -87,9 +87,9 @@ class DivisionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $id)
     {
-        $dept = Division::find($id);
+        $dept = Division::find($id->asset_division_id);
         $dept->delete();
         return redirect('superadmin/division')->with('message', 'Departemen Berhasil Dihapus');
     }
