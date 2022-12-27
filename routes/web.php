@@ -34,6 +34,10 @@ Route::post('student/createRequestDetail', [\App\Http\Controllers\RequestControl
 //CONFIRM
 Route::post('student/confirmRequest', [\App\Http\Controllers\RequestController::class, 'confirm'])->name('confirmRequest');
 Route::post('', [\App\Http\Controllers\BookingController::class, 'store'])->name('storeRequest');
+//DELETE
+Route::post('deleteRequest', [\App\Http\Controllers\RequestController::class, 'destroy']);
+
+Route::get('dashboard/student/{id}', [\App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
 
 //ASSET
 //READ

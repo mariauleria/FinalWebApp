@@ -218,8 +218,21 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $id)
     {
-        //
+//        DONE: ini gimana yak delete requestny pas cancel?
+        $request = \App\Models\Request::find($id->request_delete_id);
+        if($request->status == 'waiting approval'){
+
+            $bookings = new BookingController();
+            $bookings->destroy($id->request_delete_id);
+
+            $request->delete();
+            $message = 'Request peminjaman berhasil dihapus';
+        }
+        else{
+            $message = 'Request peminjaman tidak bisa dicancel karena sudah diapprove admin.';
+        }
+        return redirect('dashboard/student')->with('message', $message);
     }
 }

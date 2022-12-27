@@ -76,6 +76,7 @@
                                     <th scope="row">{{$index+1}}</th>
                                     <td>{{$item->name}}</td>
                                     <td>
+{{--                                        TODO: ini harusnya pas delete ada confirmation boxnya gimana galangsung kedelete--}}
                                         <form action="{{ url('deleteDivision/' . $item->id) }}" method="post">
                                             <button class="btn btn-small btn-danger" type="submit"><span class="material-symbols-outlined">delete</span></button>
                                             <input type="hidden" name="_method" value="delete" />

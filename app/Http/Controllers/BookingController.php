@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class BookingController extends Controller
 {
@@ -65,7 +66,14 @@ class BookingController extends Controller
      */
     public function show($id)
     {
-        //
+        $assets = DB::table('bookings')
+            ->join('assets', 'bookings.asset_id', '=', 'assets.id')
+            ->join('asset_categories', 'bookings.asset_category_id', '=', 'asset_categories.id')
+            ->select('assets.serial_number', 'assets.brand', 'asset_categories.name')
+            ->where('bookings.request_id', '=', $id)
+            ->get();
+
+        return Redirect::to('dashboard/student#see')->with('bookings', $assets);
     }
 
     /**
@@ -99,6 +107,6 @@ class BookingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table('bookings')->where('request_id', '=', $id)->delete();
     }
 }

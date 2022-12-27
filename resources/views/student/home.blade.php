@@ -6,9 +6,100 @@
 
 @section('js')
     <script defer src="{{ asset('js/datatable.js')}}"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script defer>
+        $(document).ready(function (){
+            $('.deleteRequestBtn').click(function (e){
+                e.preventDefault();
+                var request_id = $(this).val();
+                $('#request_id').val(request_id);
+                $('#deleteModal').modal('show');
+            });
+        });
+    </script>
+
+    <script defer>
+        $(document).ready(function() {
+
+            if(window.location.href.indexOf('#see') != -1) {
+                $('#see').modal('show');
+            }
+
+        });
+    </script>
 @endsection
 
 @section('content')
+
+{{--    modal see--}}
+    <div class="modal fade" id="see" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Aset</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nomor Seri</th>
+                            <th>Jenis</th>
+                            <th>Merek</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(session('bookings'))
+                            @foreach(session('bookings') as $index => $item)
+                                <tr>
+                                    <th scope="row">{{$index+1}}</th>
+                                    <td>{{$item->serial_number}}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->brand}}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{{--    modal delete--}}
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <form action="{{ url('deleteRequest') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Cancel Request</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="request_delete_id" id="request_id">
+                        <h5>Apakah anda yakin ingin membatalkan request peminjaman?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                        <button type="submit" class="btn btn-danger">Ya</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{{--   content--}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
@@ -21,7 +112,12 @@
                     <div class="card-body">
 
                         @if(session('message'))
-                            <div class="alert alert-success">{{ session('message') }}</div>
+                            @if(session('message') == 'Request peminjaman tidak bisa dicancel karena sudah diapprove admin.')
+                        {{--                            DONE: kalo gaberhasil cancel warna merah, klo ga ya warna success ijo--}}
+                                <div class="alert alert-danger">{{ session('message') }}</div>
+                            @else
+                                <div class="alert alert-success">{{ session('message') }}</div>
+                            @endif
                         @endif
 
                         <table id="myTable" class="table">
@@ -44,10 +140,19 @@
                                     <td>{{$req->purpose}}</td>
                                     <td>{{date("d M Y H:i", strtotime($req->book_date))}}</td>
                                     <td>{{date("d M Y H:i", strtotime($req->return_date))}}</td>
-                                    <td><span class="material-symbols-outlined">visibility</span></td>
+                                    <td>
+                                        <form action="{{ route('bookings.show', ['id' => $req->id]) }}" method="GET">
+                                            @csrf
+                                            <button type="submit" class="btn btn-small btn-primary mb-3">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                        </form>
+                                    </td>
                                     <td>{{$req->status}}</td>
                                     <td>
-                                        Cancel
+                                        @if($req->status == 'waiting approval')
+                                            <button type="button" class="btn btn-danger deleteRequestBtn" value="{{ $req->id }}">Cancel</button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
