@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +19,19 @@ class RequestController extends Controller
      */
     public function index($p)
     {
+        $current_date_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        $current_date_time = $current_date_time->format('Y-m-d H:i:s');
+
+//        kalau tgl bookingnya dah lewat (book date < current) otomatis ke reject
+        DB::table('requests')
+            ->where('status', '=', 'waiting approval')
+            ->where('requests.book_date', '<=', $current_date_time)
+            ->update(['status' => 'rejected']);
+
         if($p == 'student'){
             $user_id = \Illuminate\Support\Facades\Auth::user()->id;
             $data = \App\Models\Request::where('user_id', $user_id)->get();
+            $approver = null;
         }
         else if($p == 'admin'){
             $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
@@ -28,16 +40,18 @@ class RequestController extends Controller
                 ->orWhere('status', '=', 'approved')
                 ->orWhere('status', '=', 'on use')
                 ->join('users', 'requests.user_id', '=', 'users.id')
-                ->select('requests.*')
+                ->select('requests.*', 'users.id AS userid', 'users.name', 'users.binusianid')
                 ->where('users.division_id', '=', $user_div_id)
                 ->get();
+            $approver = \Illuminate\Support\Facades\Auth::user()->division->approver;
         }
         else if($p == 'approver'){
             // TODO: data yg dikirim ke approver apa aja
 
         }
         return view($p . '.home', [
-            'data' => $data
+            'data' => $data,
+            'approver' => $approver
         ]);
     }
 
@@ -75,6 +89,7 @@ class RequestController extends Controller
                 ->join('requests', 'bookings.request_id', '=', 'requests.id')
                 ->select('requests.book_date', 'requests.return_date')
                 ->where('bookings.asset_id', '=', $id)
+                ->where('requests.status', '!=', 'rejected')
                 ->get();
 
             if($bookings->isEmpty()){
@@ -186,9 +201,19 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        //
+        $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
+        $data = DB::table('requests')
+            ->where('status', '=', 'done')
+            ->orWhere('status', '=', 'rejected')
+            ->join('users', 'requests.user_id', '=', 'users.id')
+            ->select('requests.*', 'users.id AS userid', 'users.name', 'users.binusianid')
+            ->where('users.division_id', '=', $user_div_id)
+            ->get();
+        return view('admin.historiRequest', [
+            'data' => $data
+        ]);
     }
 
     /**
@@ -209,9 +234,25 @@ class RequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $req = \App\Models\Request::find($request->request_update_id);
+        if($request->request_update == 'rejected'){
+            $req->status = $request->request_update;
+            $req->update();
+            $message = 'Request berhasil ditolak.';
+        }
+        elseif ($request->request_update == 'approved'){
+            $req->track_approver++;
+            $approver = $request->approver_num;
+
+            if($req->track_approver == $approver){
+                $req->status = $request->request_update;
+            }
+            $req->update();
+            $message = 'Request berhasil diapprove.';
+        }
+        return redirect('dashboard/admin')->with('message', $message);
     }
 
     /**

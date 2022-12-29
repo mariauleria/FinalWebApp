@@ -26,6 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 //REQUEST PEMINJAMAN
 //READ
 Route::get('dashboard/{p}', [\App\Http\Controllers\RequestController::class, 'index']);
+Route::get('riwayat', [\App\Http\Controllers\RequestController::class, 'show'])->name('riwayat');
 //CHECK TGL
 Route::get('student/checkRequest', [\App\Http\Controllers\RequestController::class, 'check'])->name('checkRequest');
 //CREATE
@@ -37,7 +38,10 @@ Route::post('', [\App\Http\Controllers\BookingController::class, 'store'])->name
 //DELETE
 Route::post('deleteRequest', [\App\Http\Controllers\RequestController::class, 'destroy']);
 
-Route::get('dashboard/student/{id}', [\App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+Route::get('dashboard/{user}/{id}', [\App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
+Route::get('riwayat/{id}', [\App\Http\Controllers\BookingController::class, 'show2'])->name('rejectedbookings.show');
+//UPDATE
+Route::post('updateRequests', [\App\Http\Controllers\RequestController::class, 'update']);
 
 //ASSET
 //READ

@@ -103,6 +103,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Nama Departemen</th>
+{{--                                TODO: tambahin keterangan ada approver ato admin doang --}}
                                 <th scope="col">Aksi</th>
                             </tr>
                             </thead>

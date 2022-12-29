@@ -64,7 +64,7 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($user, $id)
     {
         $assets = DB::table('bookings')
             ->join('assets', 'bookings.asset_id', '=', 'assets.id')
@@ -73,7 +73,19 @@ class BookingController extends Controller
             ->where('bookings.request_id', '=', $id)
             ->get();
 
-        return Redirect::to('dashboard/student#see')->with('bookings', $assets);
+        return Redirect::to('dashboard/'. $user . '#see')->with('bookings', $assets);
+    }
+
+    public function show2($id)
+    {
+        $assets = DB::table('bookings')
+            ->join('assets', 'bookings.asset_id', '=', 'assets.id')
+            ->join('asset_categories', 'bookings.asset_category_id', '=', 'asset_categories.id')
+            ->select('assets.serial_number', 'assets.brand', 'asset_categories.name')
+            ->where('bookings.request_id', '=', $id)
+            ->get();
+
+        return Redirect::to('riwayat#see')->with('bookings', $assets);
     }
 
     /**

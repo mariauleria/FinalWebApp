@@ -114,9 +114,9 @@
                         @if(session('message'))
                             @if(session('message') == 'Request peminjaman tidak bisa dicancel karena sudah diapprove admin.')
                         {{--                            DONE: kalo gaberhasil cancel warna merah, klo ga ya warna success ijo--}}
-                                <div class="alert alert-danger">{{ session('message') }}</div>
+                                <div class="alert alert-danger" role="alert">{{ session('message') }}</div>
                             @else
-                                <div class="alert alert-success">{{ session('message') }}</div>
+                                <div class="alert alert-success" role="alert">{{ session('message') }}</div>
                             @endif
                         @endif
 
@@ -127,6 +127,7 @@
                                 <th scope="col">Tujuan Peminjaman</th>
                                 <th scope="col">Tanggal Pinjam</th>
                                 <th scope="col">Tanggal Kembali</th>
+{{--                                TODO: tambahin keterangan lokasi pinjemnya dimana --}}
                                 <th scope="col">Lihat aset</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Aksi</th>
@@ -141,7 +142,7 @@
                                     <td>{{date("d M Y H:i", strtotime($req->book_date))}}</td>
                                     <td>{{date("d M Y H:i", strtotime($req->return_date))}}</td>
                                     <td>
-                                        <form action="{{ route('bookings.show', ['id' => $req->id]) }}" method="GET">
+                                        <form action="{{ route('bookings.show', ['user' => 'student', 'id' => $req->id]) }}" method="GET">
                                             @csrf
                                             <button type="submit" class="btn btn-small btn-primary mb-3">
                                                 <span class="material-symbols-outlined">visibility</span>
