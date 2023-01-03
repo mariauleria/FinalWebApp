@@ -28,5 +28,10 @@ class RolePageMappingSeeder extends Seeder
             'role_id' => '5',
             'page_id' => '3'
         ]);
+
+        RolePageMapping::create([
+            'role_id' => '4',
+            'page_id' => '4'
+        ]);
     }
 }

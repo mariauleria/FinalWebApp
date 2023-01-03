@@ -33,6 +33,8 @@ class CreateRequestsTable extends Migration
             $table->integer('track_approver')->default('0');
             $table->string('lokasi', 1000);
             $table->boolean('flag_return')->nullable();
+            $table->dateTime('realize_return_date')->nullable();
+            $table->string('return_status')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();

@@ -52,9 +52,11 @@
                                     <input type="hidden" name="return_date" value="{{$return_date }}">
                                     <input type="hidden" name="book_date" value="{{$book_date }}">
 
-                                    <button type="submit" name="submit" class="btn btn-primary">
-                                        {{ __('Next') }}
-                                    </button>
+                                    @if($assets)
+                                        <button type="submit" name="submit" class="btn btn-primary">
+                                            {{ __('Next') }}
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
                         </form>

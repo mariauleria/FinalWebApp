@@ -72,6 +72,12 @@
                     <div class="card-header">{{ __('Riwayat Peminjaman') }}</div>
 
                     <div class="card-body">
+                        @if (session('message'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('message') }}
+                            </div>
+                        @endif
+
                         <table id="myTable" class="table">
                             <thead>
                             <tr>
@@ -109,7 +115,11 @@
                                     <td>{{$req->status}}</td>
                                     <td>
                                         @if($req->status == 'done')
-                                            donlot
+{{--                                        TODO: ini tampilin receiptnya--}}
+                                            <form action="" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary" name="request_id" value="{{$req->id}}"><span class="material-symbols-outlined">file_download</span></button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>

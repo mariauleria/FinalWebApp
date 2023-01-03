@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Seblhaire\DateRangePickerHelper\DateRangePickerHelper;
+use function PHPUnit\Framework\isEmpty;
 
 class RequestController extends Controller
 {
@@ -22,10 +23,10 @@ class RequestController extends Controller
         $current_date_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
         $current_date_time = $current_date_time->format('Y-m-d H:i:s');
 
-//        kalau tgl bookingnya dah lewat (book date < current) otomatis ke reject
+//        kalau tgl bookingnya dah lewat (return date < current) otomatis ke reject
         DB::table('requests')
             ->where('status', '=', 'waiting approval')
-            ->where('requests.book_date', '<=', $current_date_time)
+            ->where('requests.return_date', '<=', $current_date_time)
             ->update(['status' => 'rejected']);
 
         if($p == 'student'){
@@ -39,6 +40,7 @@ class RequestController extends Controller
                 ->where('status', '=', 'waiting approval')
                 ->orWhere('status', '=', 'approved')
                 ->orWhere('status', '=', 'on use')
+                ->orWhere('status', '=', 'taken')
                 ->join('users', 'requests.user_id', '=', 'users.id')
                 ->select('requests.*', 'users.id AS userid', 'users.name', 'users.binusianid')
                 ->where('users.division_id', '=', $user_div_id)
@@ -46,8 +48,18 @@ class RequestController extends Controller
             $approver = \Illuminate\Support\Facades\Auth::user()->division->approver;
         }
         else if($p == 'approver'){
-            // TODO: data yg dikirim ke approver apa aja
-
+            $user_div_id = \Illuminate\Support\Facades\Auth::user()->division->id;
+            $data = DB::table('requests')
+                ->where('requests.track_approver', '>', 0)
+                ->where('status', '=', 'waiting approval')
+                ->orWhere('status', '=', 'approved')
+                ->orWhere('status', '=', 'on use')
+                ->orWhere('status', '=', 'taken')
+                ->join('users', 'requests.user_id', '=', 'users.id')
+                ->select('requests.*', 'users.id AS userid', 'users.name', 'users.binusianid')
+                ->where('users.division_id', '=', $user_div_id)
+                ->get();
+            $approver = \Illuminate\Support\Facades\Auth::user()->division->approver;
         }
         return view($p . '.home', [
             'data' => $data,
@@ -65,6 +77,92 @@ class RequestController extends Controller
         return view('student/checkRequest');
     }
 
+    public function kembali(Request $request){
+        $id = $request->input('request_return_id');
+        $req = \App\Models\Request::find($id);
+        if($req->flag_return == null){
+            //balikin form utk kembaliin
+            $returned = null;
+        }
+        else{
+            //balikin form utk tampilin kembalian
+            $returned = 1;
+        }
+
+        $aset = DB::table('bookings')
+            ->join('assets', 'bookings.asset_id', '=', 'assets.id')
+            ->join('asset_categories', 'bookings.asset_category_id', '=', 'asset_categories.id')
+            ->select('assets.serial_number', 'assets.brand', 'asset_categories.name')
+            ->where('bookings.request_id', '=', $id)
+            ->get();
+
+        $current_date_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        $current_date_time = $current_date_time->format('l, d M Y H:i');
+
+        return view('student.kembali', [
+            'returned' => $returned,
+            'aset' => $aset,
+            'request' => $req,
+            'current_date' => $current_date_time
+        ]);
+    }
+
+    public function simpanKembali(Request $request){
+        $req = \App\Models\Request::find($request->input('request_id'));
+        $req->return_status = $request->input('kondisi_aset');
+        $req->return_notes = $request->input('return_condition');
+        $req->flag_return = 1;
+        $req->realize_return_date = date("Y-m-d H:i:s", strtotime($request->input('realize_return_date')));
+        $req->update();
+
+        return redirect('dashboard/student')->with('message', 'Berhasil mengajukan pengembalian.');
+    }
+
+    public function cekPengembalian(Request $request){
+        $id = $request->input('request_id');
+        $req = \App\Models\Request::find($id);
+
+        $assets = DB::table('bookings')
+            ->join('assets', 'bookings.asset_id', '=', 'assets.id')
+            ->join('asset_categories', 'bookings.asset_category_id', '=', 'asset_categories.id')
+            ->select('assets.serial_number', 'assets.brand', 'asset_categories.name')
+            ->where('bookings.request_id', '=', $id)
+            ->get();
+
+        return view('admin.formKembali', [
+            'request' => $req,
+            'assets' => $assets
+        ]);
+    }
+
+    public function checkTanggal(Request $request)
+    {
+        $req_id = $request->request_taken_id;
+        $current_date_time = new DateTime("now", new DateTimeZone('Asia/Jakarta'));
+        $current_date_time = $current_date_time->format('Y-m-d H:i:s');
+
+        $req = DB::table('requests')
+            ->where('id', '=', $req_id)
+            ->where('book_date', '<=', $current_date_time)
+            ->get();
+
+        $id = null;
+        foreach ($req as $r){
+            $id = $r->id;
+        }
+
+        if($id != null){
+            //barang bisa diambil = update bookings
+            $bookings = new BookingController();
+            $bookings->update($req_id);
+            return redirect('dashboard/admin')->with('message', "Barang berhasil diambil.");
+        }
+        else{
+            //gabisa diambil dulu = alert
+            echo 'alert';
+        }
+    }
+
     public function createRequestDetail(Request $request){
         $res = $request->input('datetimes');
         $res = explode(" - ", $res);
@@ -77,8 +175,9 @@ class RequestController extends Controller
         $assets = DB::table('assets')
             ->join('asset_categories', 'assets.asset_category_id', '=', 'asset_categories.id')
             ->select('assets.*', 'asset_categories.name')
-            ->where('status', 'tersedia')
             ->where('division_id', '=', $user_div_id)
+            ->where('status', 'tersedia')
+            ->orWhere('status', 'dipinjam')
             ->get();
 
         $avail_items = array();
@@ -236,6 +335,7 @@ class RequestController extends Controller
      */
     public function update(Request $request)
     {
+        $user = $request->input('user');
         $req = \App\Models\Request::find($request->request_update_id);
         if($request->request_update == 'rejected'){
             $req->status = $request->request_update;
@@ -252,7 +352,16 @@ class RequestController extends Controller
             $req->update();
             $message = 'Request berhasil diapprove.';
         }
-        return redirect('dashboard/admin')->with('message', $message);
+        //DONE: ini kembali ke dashboard/approvernya gimana
+        return redirect('dashboard/' . $user)->with('message', $message);
+    }
+
+    public function updateStatus(Request $request){
+        $req = \App\Models\Request::find($request->input('request_id'));
+        $req->status = $request->input('status');
+        $req->update();
+        $user = $request->input('user');
+        return redirect('dashboard/' . $user)->with('message', 'Peminjaman berhasil diperbaharui');
     }
 
     /**
@@ -277,5 +386,28 @@ class RequestController extends Controller
             $message = 'Request peminjaman tidak bisa dicancel karena sudah diapprove admin.';
         }
         return redirect('dashboard/student')->with('message', $message);
+    }
+
+    public function approvePengembalian(Request $request){
+        $id = $request->input('request_return_id');
+        $req = \App\Models\Request::find($id);
+
+        $req->status = 'done';
+        $bookings = new BookingController();
+        $bookings->updateReturn($id, $req->realize_return_date);
+
+        $req->update();
+        return redirect('riwayat')->with('message', 'Peminjaman berhasil dikembalikan.');
+    }
+
+    public function rejectPengembalian(Request $request){
+        $id = $request->input('request_return_id');
+        $req = \App\Models\Request::find($id);
+
+        $req->flag_return = null;
+        $req->realize_return_date = null;
+        $req->update();
+
+        return redirect('dashboard/admin')->with('message', 'Pengembalian berhasil ditolak.');
     }
 }

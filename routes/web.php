@@ -34,7 +34,7 @@ Route::post('student/createRequest', [\App\Http\Controllers\RequestController::c
 Route::post('student/createRequestDetail', [\App\Http\Controllers\RequestController::class, 'create'])->name('createRequestDetail');
 //CONFIRM
 Route::post('student/confirmRequest', [\App\Http\Controllers\RequestController::class, 'confirm'])->name('confirmRequest');
-Route::post('', [\App\Http\Controllers\BookingController::class, 'store'])->name('storeRequest');
+Route::post('student/storeRequest', [\App\Http\Controllers\BookingController::class, 'store'])->name('storeRequest');
 //DELETE
 Route::post('deleteRequest', [\App\Http\Controllers\RequestController::class, 'destroy']);
 
@@ -42,6 +42,16 @@ Route::get('dashboard/{user}/{id}', [\App\Http\Controllers\BookingController::cl
 Route::get('riwayat/{id}', [\App\Http\Controllers\BookingController::class, 'show2'])->name('rejectedbookings.show');
 //UPDATE
 Route::post('updateRequests', [\App\Http\Controllers\RequestController::class, 'update']);
+//KEMBALI PINJAMAN
+Route::post('kembaliRequest', [\App\Http\Controllers\RequestController::class, 'kembali'])->name('kembaliRequests');
+Route::post('simpanKembali', [\App\Http\Controllers\RequestController::class, 'simpanKembali'])->name('simpanKembali');
+Route::post('cekPengembalian', [\App\Http\Controllers\RequestController::class, 'cekPengembalian'])->name('cekPengembalian');
+Route::post('approvePengembalian', [\App\Http\Controllers\RequestController::class, 'approvePengembalian'])->name('approvePengembalian');
+Route::post('rejectPengembalian', [\App\Http\Controllers\RequestController::class, 'rejectPengembalian'])->name('rejectPengembalian');
+
+//BOOKINGS
+Route::post('', [\App\Http\Controllers\RequestController::class, 'checkTanggal'])->name('takenBookings');
+Route::post('updateStatus', [\App\Http\Controllers\RequestController::class, 'updateStatus'])->name('updateStatus');
 
 //ASSET
 //READ

@@ -153,6 +153,34 @@
                                     <td>
                                         @if($req->status == 'waiting approval')
                                             <button type="button" class="btn btn-danger deleteRequestBtn" value="{{ $req->id }}">Cancel</button>
+                                        @elseif($req->status == 'approved')
+                                            {{"Silahkan ambil barang sesuai jadwal pinjam."}}
+                                        @elseif($req->status == 'taken')
+                                            <form action="{{ route('updateStatus') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="on use">
+                                                <input type="hidden" name="user" value="student">
+                                                <button type="submit" class="btn btn-primary" name="request_id" value="{{ $req->id }}">Barang sudah diterima</button>
+                                            </form>
+                                        @elseif($req->status == 'on use' || $req->status == 'done')
+{{--                                        TODO: upgrade laravel biar bisa generate receipt DOMPDF--}}
+                                            <form action="" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary" name="request_id" value="{{$req->id}}"><span class="material-symbols-outlined">file_download</span></button>
+                                            </form>
+
+                                            @if($req->status == 'on use')
+                                                <form action="{{ route('kembaliRequests') }}" method="post">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary" name="request_return_id" value="{{$req->id}}">
+                                                        @if($req->flag_return == null || $req->flag_return == 0)
+                                                            Kembalikan
+                                                        @elseif($req->flag_return == 1)
+                                                            <span class="material-symbols-outlined">visibility</span>
+                                                        @endif
+                                                    </button>
+                                                </form>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

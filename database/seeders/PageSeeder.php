@@ -25,5 +25,9 @@ class PageSeeder extends Seeder
         Page::create([
             'name' => 'superadmin/home'
         ]);
+
+        Page::create([
+            'name' => 'dashboard/approver'
+        ]);
     }
 }
