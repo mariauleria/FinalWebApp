@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    {{--    modal approve: kalo di approve update realize_return_date di bookings aja--}}
+    {{--    modal approve: kalo di approve update realize_return_date di bookings, aset status jadi tersedia--}}
     <div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

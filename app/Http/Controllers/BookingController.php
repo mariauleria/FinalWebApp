@@ -151,5 +151,15 @@ class BookingController extends Controller
         DB::table('bookings')
             ->where('request_id', '=', $id)
             ->update(['realize_return_date' => $date]);
+
+        $bookings = DB::table('bookings')
+            ->where('request_id', '=', $id)
+            ->get();
+        
+        foreach ($bookings as $b){
+            $aset = Asset::find($b->asset_id);
+            $aset->status = 'tersedia';
+            $aset->update();
+        }
     }
 }
